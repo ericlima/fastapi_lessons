@@ -9,6 +9,7 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
+    restart: always
     environment:
       - PYTHONUNBUFFERED=1
       - DATABASE_URL=mysql+pymysql://root:mariadb@mariadb:3306/fastapi  # Ajuste conforme necessário
