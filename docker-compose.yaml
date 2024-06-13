@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  fastapi-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DATABASE_URL=mysql+pymysql://root:mariadb@mariadb:3306/fastapi  # Ajuste conforme necessário
+    depends_on:
+      - mariadb
+
+  mariadb:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: mariadb  # Ajuste a senha conforme necessário
+      MYSQL_DATABASE: fastapi  # Ajuste o nome do banco de dados conforme necessário
+    ports:
+      - "33306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+volumes:
+  mariadb_data:

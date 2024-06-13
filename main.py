@@ -42,13 +42,16 @@ def read_item(item_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Item not found")
     return db_item
 
+
 @app.get("/cliente/", response_model=list[schemas.Cliente])
 def get_all(db: Session = Depends(get_db)):
     return crud.get_all_cliente(db)
 
+
 @app.post("/cliente/", response_model=schemas.Cliente)
 def create_cliente(cliente: schemas.ClienteCreate, db: Session = Depends(get_db)):
     return crud.create_cliente(db=db, cliente=cliente)
+
 
 @app.get("/cliente/{id}", response_model=schemas.Cliente)
 def read_cliente(id: int, db: Session = Depends(get_db)):
@@ -56,6 +59,7 @@ def read_cliente(id: int, db: Session = Depends(get_db)):
     if db_cliente is None:
         raise HTTPException(status_code=404, detail="Cliente not found")
     return db_cliente
+
 
 @app.delete("/cliente/{id}", response_model=schemas.Message)
 def delete_cliente_endpoint(id: int, db: Session = Depends(get_db)):
