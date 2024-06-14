@@ -9,6 +9,7 @@ uvicorn = "*"
 sqlalchemy = "*"
 pymysql = "*"
 pydantic = "*"
+pika = "*"
 
 [dev-packages]
 

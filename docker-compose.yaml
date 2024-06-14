@@ -12,9 +12,27 @@ services:
     restart: always
     environment:
       - PYTHONUNBUFFERED=1
-      - DATABASE_URL=mysql+pymysql://root:mariadb@mariadb:3306/fastapi  # Ajuste conforme necessário
+      - DB_USER=root
+      - DB_PASSWORD=mariadb
+      - DB_HOST=mariadb
+      - DB_NAME=fastapi
+      - RABBIT_USER=root
+      - RABBIT_PASSWORD=root
+      - RABBIT_HOST=rabbitmq
+      - RABBIT_PORT=5672
     depends_on:
       - mariadb
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    restart: unless-stopped
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=root
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
   mariadb:
     image: mariadb:latest

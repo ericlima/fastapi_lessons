@@ -13,7 +13,7 @@ class Cliente(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     nome = Column(String(255), index=True)
-    email = Column(String(255), index=True)
+    email = Column(String(255), unique=True, index=True)
     fone = Column(String(255), index=True)
     
     

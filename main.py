@@ -1,8 +1,10 @@
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.concurrency import asynccontextmanager
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 import crud
+from rabbit import get_channel, get_connection, publish_message
 import schemas
 import models
 from database import SessionLocal, engine
@@ -10,7 +12,16 @@ from database import SessionLocal, engine
 # Create all tables in the database.
 models.Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    connection = get_connection()
+    channel = get_channel(connection)
+    channel.queue_declare(queue='clientes', durable=True)
+    yield
+    channel.close()
+    connection.close()
+    
+app = FastAPI(lifespan=lifespan)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
@@ -77,3 +88,19 @@ def update_cliente(cliente_id: int, cliente_update: schemas.ClienteUpdate, db: S
     return db_cliente
 
 
+
+
+
+    
+    
+@app.post("/publish/cliente/", response_model=schemas.Message)
+async def publish_message_endpoint(cliente: schemas.ClienteCreate):
+    try:
+        connection = get_connection()
+        channel = get_channel(connection)
+        cliente_json = cliente.model_dump_json()
+        publish_message(channel, 'clientes', cliente_json)
+        connection.close()
+        return {"message": "Message published"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

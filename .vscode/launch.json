@@ -13,7 +13,11 @@
                 "main:app",
                 "--reload"
             ],
-            "jinja": true
+            "jinja": true,
+            "env": {
+                "RABBIT_HOST": "localhost",
+                "DB_HOST": "localhost"
+            }
         }
     ]
 }
