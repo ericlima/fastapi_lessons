@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8d79f1bbc6f5a1bbe7bf95a3adbf77c8ddbd0b53bc0bf462efe9afa823a0ced8"
+            "sha256": "d341f5f560dc8d5ac811d389271946bc85b7e82bee79a60f548f5c8c30f8ec77"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -71,6 +71,15 @@
             ],
             "markers": "python_version >= '3.8'",
             "version": "==2.1.1"
+        },
+        "exceptiongroup": {
+            "hashes": [
+                "sha256:5258b9ed329c5bbdd31a309f53cbfb0b155341807f6ff7606a1e801a891b29ad",
+                "sha256:a4785e48b045528f5bfe627b6ad554ff32def154f42372786903b7abcfe1aa16"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.7'",
+            "version": "==1.2.1"
         },
         "fastapi": {
             "hashes": [
